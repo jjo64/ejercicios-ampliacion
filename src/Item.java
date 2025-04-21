@@ -1,0 +1,55 @@
+import java.io.Serializable;
+
+public class Item implements Serializable {
+    public enum Tipo {
+        Basica,
+        Normal,
+        Rara,
+        Epica,
+        Mitica,
+        Legendaria;
+
+        public static void mostrarTipos() {
+            for (Tipo armadura : Tipo.values()) {
+                System.out.println(armadura);
+            }
+        }
+    }
+    private String nombre;
+    private Tipo tipoArmadura;
+    private int precio;
+    private int atk_armadura;
+    private int def_armadura;
+    private int hp_armadura;
+
+    
+
+    public Item(String nombre, Item.Tipo tipoArmadura, int precio, int atk_armadura, int def_armadura, int hp_armadura) {
+        this.nombre = nombre;
+        this.tipoArmadura = tipoArmadura;
+        this.precio = precio;
+        this.atk_armadura = atk_armadura;
+        this.def_armadura = def_armadura;
+        this.hp_armadura = hp_armadura;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Tipo getTipoArmadura() {
+        return tipoArmadura;
+    }
+
+    public int getAtk_armadura() {
+        return atk_armadura;
+    }
+
+    public int getDef_armadura() {
+        return def_armadura;
+    }
+
+    public int getHp_armadura() {
+        return hp_armadura;
+    }
+}
