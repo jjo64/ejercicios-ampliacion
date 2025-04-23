@@ -1,16 +1,19 @@
 import java.io.*;
+import java.util.ArrayList;
 
 public class Personaje implements Comparable<Personaje>, Serializable {
     private String nombre;
     private int atk;
     private int def;
     private int hp;
+    ArrayList<Enemigo> enemigosDerrotados;
 
     public Personaje (String nombre, int atk, int def, int hp) {
         this.nombre = nombre;
         this.atk = atk;
         this.def = def;
         this.hp = hp;
+        enemigosDerrotados = new ArrayList<>();
     }
 
     public void setAtk(int atk) {
@@ -39,6 +42,10 @@ public class Personaje implements Comparable<Personaje>, Serializable {
 
     public int getHp() {
         return hp;
+    }
+
+    public ArrayList<Enemigo> getEnemigosDerrotados() {
+        return enemigosDerrotados;
     }
 
     public void mostrarPoderosos(Personaje p) {

@@ -52,4 +52,8 @@ public class Item implements Serializable {
     public int getHp_armadura() {
         return hp_armadura;
     }
+
+    public int getPrecio() {
+        return precio;
+    }
 }

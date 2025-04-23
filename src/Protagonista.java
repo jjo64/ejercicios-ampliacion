@@ -29,4 +29,8 @@ public class Protagonista extends Personaje implements Serializable {
         setHp(this.getHp()-ataque);
     }
 
+    public ArrayList<Item> getBolsa() {
+        return bolsa;
+    }
+
 }
