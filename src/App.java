@@ -424,8 +424,9 @@ public class App {
             int random = (int) (Math.random() * aux.size());
             elegido.setArmadura(aux.get(random));
             elegido.setOro(20);
+            funcionamientoJuego(elegido, dificultad);
         } if (dificultad == 2) {
-            
+            funcionamientoJuego(elegido, dificultad);
         } else {
             
         }
@@ -433,25 +434,31 @@ public class App {
         
     }
 
-    public static void funcionamientoJuego(Protagonista p) {
-        boolean ok = true;
-        while (ok) {
+    public static void funcionamientoJuego(Protagonista p, int dificultad) {
+        boolean primero = true;
+        while (primero) {
+            //Copia todos los enemigos del hashmap a un array aux
             ArrayList<Enemigo> aux = new ArrayList<>();
             for (Map.Entry<String, Personaje> personaje : LISTAPERSONAJES.entrySet()) {
                 if (personaje.getValue() instanceof Enemigo) {
                     aux.add((Enemigo) personaje.getValue());
                 }
             }
+            //Elijo un enemigo random
             int random = (int) (Math.random() * aux.size());
             Enemigo e = aux.get(random);
-            boolean seguir = true;
-            while (seguir) {
-                System.out.println("Tu enemigo es: " + e);
+            System.out.println("Tu enemigo es: " + e);
+            //Menu opciones
+            boolean segundo = true;
+            while (segundo) {
                 System.out.println("1 ---- Atacar\n 2 ---- Item\n 3 ---- Salir");
                 int eleccion = pedirNumero();
+                //Atacar
                 if (eleccion == 1) {
                     e.recibirDano(p.getAtk());
-                } else if (eleccion == 2) {
+                } 
+                //Item
+                else if (eleccion == 2) {
                     System.out.println("Nuestro inventario de items");
                     for (Item bolsita : LISTAITEMS.values()) {
                         System.out.println(bolsita);
@@ -464,25 +471,87 @@ public class App {
                     } else {
                         System.out.println("El item seleccionado no existe, prueba otro");
                     }
-                } else if (eleccion == 3) {
-                    seguir = false;
+                } 
+                //Salir de la partida
+                else if (eleccion == 3) {
+                    primero = false; //Termina la partida
                 } else {
                     System.out.println("Eleccion incorrecta. Prueba eligiendo otra opcion.");
                 }
-
-                if (e.getHp() > 0) {
-                    p.recibirDano(e.getAtk());
-                } else {
-                    ok = false;
-                }
-
-                if (p.getHp() > 0) {
-                    e.recibirDano(p.getAtk());
-                } else {
-                    ok = false;
+                //Turno enemigo
+                if(primero==true){ //Si el usuario no elige salir entonces el enemigo le toca atacar
+                    if (e.getHp() > 0) {
+                        p.recibirDano(e.getAtk());
+                    } else {
+                        segundo = false;
+                        p.enemigosDerrotados.add(e); //Si el enemigo esta muerto, lo agrego a mi lista de enemigos derrotados
+                        tienda(p, dificultad);
+                    }
+    
+                    if (p.getHp() > 0) {
+                        e.recibirDano(p.getAtk());
+                    } else {
+                        primero = false;
+                    }
                 }
             }
         }
+    }
+
+    public static void tienda(Protagonista p, int dificultad) {
+        ArrayList<Item> listaAux = new ArrayList<>(LISTAITEMS.values());
+        int random1 = (int) (Math.random()*LISTAITEMS.size());
+        int random2 = (int) (Math.random()*LISTAITEMS.size());
+        int random3 = (int) (Math.random()*LISTAITEMS.size());
+        Item uno = listaAux.get(random1);        
+        Item dos = listaAux.get(random2);
+        Item tres = listaAux.get(random3);
+        System.out.println("Bienvenido a la tienda");
+        System.out.println("Item 1: " + uno + "Precio: " +uno.getPrecio());
+        System.out.println("ITem 2: " + dos + "Precio: " + dos.getPrecio());
+        System.out.println("Item 3: " + tres + "Precio: ");
+        
+        if (dificultad == 1) {
+            System.out.println("1 ---- Elegir item a comprar | 2 ---- Comprar todos los items");
+            int eleccion = pedirNumero();
+            if (eleccion == 1) {
+                System.out.println("Introduce el numero del Item");
+                int numero = pedirNumero();
+                if (numero == 1) {
+                    p.getBolsa().add(uno);
+                    System.out.println("Item 1 comprado con exito");
+                } else if (numero == 2) {
+                    p.getBolsa().add(dos);
+                    System.out.println("Item 2 comprado con exito");
+                } else if (numero == 3) {
+                    p.getBolsa().add(tres);
+                    System.out.println("Item 3 comprado con exito");
+                }
+            } else if(eleccion == 2) {
+                p.getBolsa().add(uno);
+                p.getBolsa().add(dos);
+                p.getBolsa().add(tres);
+                System.out.println("Todos los items fueron comprados con exito");
+            }
+        } else {
+            System.out.println("Elige un solo item");
+            System.out.println("Introduce el numero del Item");
+                int numero = pedirNumero();
+                if (numero == 1) {
+                    p.getBolsa().add(uno);
+                    System.out.println("Item 1 comprado con exito");
+                } else if (numero == 2) {
+                    p.getBolsa().add(dos);
+                    System.out.println("Item 2 comprado con exito");
+                } else if (numero == 3) {
+                    p.getBolsa().add(tres);
+                    System.out.println("Item 3 comprado con exito");
+                } else {
+                    System.out.println("Eleccion no correcta. Vuelve a introducir la opcion correcta");
+                }
+            } 
+        
+    
     }
 
     public static void submenu() {
