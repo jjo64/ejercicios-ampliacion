@@ -2,12 +2,8 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
     public enum Tipo {
-        Basica,
-        Normal,
-        Rara,
-        Epica,
-        Mitica,
-        Legendaria;
+        Curativo,
+        Armadura;
 
         public static void mostrarTipos() {
             for (Tipo armadura : Tipo.values()) {
@@ -15,12 +11,12 @@ public class Item implements Serializable {
             }
         }
     }
-    private String nombre;
-    private Tipo tipoArmadura;
+    private String nombre; //vector[0]
+    private Tipo tipoArmadura; //vector[1]
     private int precio;
     private int atk_armadura;
     private int def_armadura;
-    private int hp_armadura;
+    private int hp_armadura; //vector[5]
 
     
 

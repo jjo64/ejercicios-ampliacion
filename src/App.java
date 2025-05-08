@@ -41,10 +41,9 @@ public class App {
     }
 
     public static void ordenarArrayLinked() {
-        LinkedHashMap <String, Personaje> linkedAuxiliar = new LinkedHashMap<>(LISTAPERSONAJES);
-        ArrayList<Personaje> listaAuxiliar = new ArrayList<>(linkedAuxiliar.values());
+        LinkedHashMap <String, Personaje> linkedAuxiliar = new LinkedHashMap<>();
+        ArrayList<Personaje> listaAuxiliar = new ArrayList<>(LISTAPERSONAJES.values());
         Collections.sort(listaAuxiliar);
-        linkedAuxiliar.clear();
         for (Personaje personaje : listaAuxiliar) {
             linkedAuxiliar.put(personaje.getNombre(), personaje);
         }
@@ -79,6 +78,22 @@ public class App {
         } 
     }
 
+    public static void mostrarSoloArmadura() {
+        ArrayList<Protagonista> listaPersonajesAux = new ArrayList<>();
+
+        for (Personaje personaje : LISTAPERSONAJES.values()) {
+            if (personaje instanceof Protagonista) {
+                listaPersonajesAux.add((Protagonista)personaje);
+            }
+        }
+
+        for (Protagonista personaje : listaPersonajesAux) {
+            if (personaje.getArmadura() != null) {
+                System.out.println(personaje);
+            }
+        }
+    }
+
     //Enunciado 5 punto a 
 
     public static void unDelimitador() {
@@ -93,16 +108,22 @@ public class App {
                 String linea = lector_linea.readLine();
                 String [] vector = linea.split(",");
 
+                Item.Tipo tipo = null;
+                if (vector[1].equalsIgnoreCase("Curativo")) {
+                    //Tendria que ser Tipo Curativo
+                    tipo = Item.Tipo.Curativo;
+                } else {
+                    //Tendria que ser Tipo Armadura
+                    tipo = Item.Tipo.Armadura;
+                }
+
                 int precio = Integer.parseInt(vector[2]);
                 int atk_armadura = Integer.parseInt(vector[3]);
                 int def_armadura = Integer.parseInt(vector[4]);
                 int hp_armadura = Integer.parseInt(vector[5]);
 
-                //Tengo que hacer un equals al vector[1] y si es de tal o tal asignarle a mi variable tipo_armadura en un switch
-                //tipo_armadura = Tipo.basica / Tipo.normal etc etc
-
                 for (String li : vector) {
-                    Item nuevo = new Item(vector[0], null, precio, atk_armadura, def_armadura, hp_armadura);
+                    Item nuevo = new Item(vector[0], tipo, precio, atk_armadura, def_armadura, hp_armadura);
                     //Crea la estructura de datos que no acepte repetidos == un conjunto o un mapa
                     LISTAITEMS.put(nuevo.getNombre(), nuevo);
                 }
@@ -114,7 +135,7 @@ public class App {
 
         //Mostrar solo items curativos = for each implementando un if que pregunte el tipo armadura del objeto item y tambien mostrar el valor del hp que restaura
         for (Item loot : LISTAITEMS.values()) {
-            if (loot.getTipoArmadura() == Item.Tipo.Epica) {
+            if (loot.getTipoArmadura() == Item.Tipo.Curativo) {
                 System.out.println("Armadura: " + loot.getNombre() + "Restaura hp: " + loot.getHp_armadura());
             }
         }
@@ -159,8 +180,8 @@ public class App {
     //Enunciado 6
     public static void binario() {
         ArrayList<Item> listaAux = new ArrayList<>();
-        Item armadura1 = new Item("Peto mataabuelitas777", Item.Tipo.Legendaria, 8500, 60, 120, 200);
-        Item armadura2 = new Item("Botas momeras", Item.Tipo.Mitica, 5400, 40, 80, 140);
+        Item armadura1 = new Item("Peto mataabuelitas777", Item.Tipo.Armadura, 8500, 60, 120, 200);
+        Item armadura2 = new Item("Botas momeras", Item.Tipo.Curativo, 5400, 40, 80, 140);
         listaAux.add(armadura1);
         listaAux.add(armadura2);
         int contador = 0;
@@ -546,18 +567,12 @@ public class App {
         Item.Tipo.mostrarTipos();
         String tipo_aux = TECLADO.nextLine();
         Item.Tipo tipo;
-        if (tipo_aux.equalsIgnoreCase("Basico")) {
-            tipo = Item.Tipo.Basica;
-        } else if (tipo_aux.equalsIgnoreCase("Normal")) {
-            tipo = Item.Tipo.Normal;
-        } else if (tipo_aux.equalsIgnoreCase("Rara")) {
-            tipo = Item.Tipo.Rara;
-        } else if (tipo_aux.equalsIgnoreCase("Epica")) {
-            tipo = Item.Tipo.Epica;
-        } else if (tipo_aux.equalsIgnoreCase("Mitica")) {
-            tipo = Item.Tipo.Mitica;
+        if (tipo_aux.equalsIgnoreCase("Armadura")) {
+            tipo = Item.Tipo.Armadura;
+        } else if (tipo_aux.equalsIgnoreCase("Curativo")) {
+            tipo = Item.Tipo.Curativo;
         } else {
-            tipo = Item.Tipo.Legendaria;
+            tipo = Item.Tipo.Armadura;
         }
         System.out.println("Ingresa el precio de tu armadura");
         int precio = pedirNumero();

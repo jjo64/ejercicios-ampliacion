@@ -51,4 +51,11 @@ public class Personaje implements Comparable<Personaje>, Serializable {
     public int compareTo(Personaje o) {
         return this.nombre.compareTo(o.getNombre());
     }
+
+    @Override
+    public String toString() {
+        return "Personaje [nombre=" + nombre + ", atk=" + atk + ", def=" + def + ", hp=" + hp + "]";
+    }
+
+    
 }
